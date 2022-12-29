@@ -1,13 +1,18 @@
 CC = gcc
 CFLAGS = -g -Wall
-TARGET = stack
+BIN = stack-lang
+SRC = *.c
+OBJ = $(SRC:.c=.o)
 
 .PHONY: clean
 
-all: $(TARGET)
+all: $(BIN)
 
-$(TARGET): $(TARGET).c
-	$(CC) $(CFLAGS) -o $(TARGET) $(TARGET).c
+$(BIN): $(OBJ)
+	$(CC) $^ $(CFLAGS) -o $@
+
+%.o: %.c
+	$(CC) -c $^ $(CFLAGS) -o $@
 
 clean:
-	$(RM) $(TARGET)
+	$(RM) *.o $(BIN)

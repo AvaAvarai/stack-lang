@@ -14,21 +14,21 @@ Stack* stackCreate (int n)
     if (n <= 0)
     {
         fprintf (stderr, "Invalid stack size %d.\n", n);
-        exit (1);
+        exit (EXIT_FAILURE);
     }
         
     Stack* out = malloc (sizeof (Stack));
     if (out == NULL)
     {
         fprintf (stderr, "Memory allocation error.\n");
-        exit (1);
+        exit (EXIT_FAILURE);
     }
 
     int* outArr = malloc (n * sizeof *outArr);
     if (outArr == NULL)
     {
         fprintf (stderr, "Memory allocation error.\n");
-        exit (1);
+        exit (EXIT_FAILURE);
     }
 
     out->array = outArr;
@@ -42,7 +42,7 @@ void stackDelete (Stack* stack)
     if (stack == NULL)
     {
         fprintf (stderr, "Empty memory.\n");
-        exit (1);
+        exit (EXIT_FAILURE);
     }
 
     free(stack->array);
@@ -54,7 +54,7 @@ void stackPush (Stack* stack, int val)
     if (stack == NULL)
     {
         fprintf (stderr, "Empty memory.\n");
-        exit (1);
+        exit (EXIT_FAILURE);
     }
 
     stack->array[stack->top+1] = val;
@@ -67,13 +67,13 @@ int stackPop (Stack* stack)
     {
         fprintf (stderr, "Empty memory.\n");
         
-        exit (1);
+        exit (EXIT_FAILURE);
     }
 
     if (stack->top < 0)
     {
         fprintf (stderr, "Memory error.\n");
-        exit (1);
+        exit (EXIT_FAILURE);
     }
     
     int out = stack->array[stack->top];
@@ -92,7 +92,12 @@ int stackPeek (Stack* stack)
     if (stack->top == -1)
     {
         fprintf (stderr, "Memory error.\n");
-        exit (1);
+        exit (EXIT_FAILURE);
     }
     return stack->array[stack->top];
+}
+
+int  main(void)
+{
+    exit (EXIT_SUCCESS);
 }
