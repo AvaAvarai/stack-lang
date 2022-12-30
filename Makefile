@@ -12,7 +12,7 @@ $(BIN): $(OBJ)
 	$(CC) $^ $(CFLAGS) -o $@
 
 %.o: %.c
-	$(CC) -c $^ $(CFLAGS) -o $@
+	$(CC) $^ $(CFLAGS) -o $@
 
 clean:
 	$(RM) *.o $(BIN)

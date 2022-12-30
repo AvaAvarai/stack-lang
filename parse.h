@@ -3,6 +3,8 @@
 
 typedef struct Prog Prog;
 
-Prog* parseFile(char* filename);
+Prog* progLoad  (char* filename);
+void  progRun   (Prog* program);
+void  progClose (Prog* program);
 
 #endif

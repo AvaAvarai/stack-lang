@@ -96,8 +96,3 @@ int stackPeek (Stack* stack)
     }
     return stack->array[stack->top];
 }
-
-int  main(void)
-{
-    exit (EXIT_SUCCESS);
-}
