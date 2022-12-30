@@ -58,33 +58,21 @@ void progRun (Prog* program)
     // parsing wip
     for (size_t iter = 0; iter < strlen (program->code); iter++)
     {
-        char command[5] = {program->code[iter], program->code[iter+1], program->code[iter+2], program->code[iter+3], '\0'};
-        printf("%s", command);
-        if (strcmp (command, "push")==0)
+        // ignore comments
+        if ( program->code[iter] == '#' )
         {
-            printf ("IT WORKED!");
-            iter += 5;
-            // need to grab operand
-            continue;
-        } else if (strcmp (command, "pop ")==0)
-        {
-
-        } else if (strcmp (command, "add ")==0)
-        {
-
-        } else if (strcmp (command, "dup ")==0)
-        {
-
-        } else if (strcmp (command, "ifeq")==0)
-        {
-
-        } else if (strcmp (command, "peek")==0)
-        {
-
-        } else if (strcmp (command, "jump")==0)
-        {
-
+            while ( program->code[iter] != '\n' )
+            {
+                iter++;
+            }
         }
+
+        // capture opcode
+        while ( program->code[iter] != ' ' )
+        {
+            iter++;
+        }
+        printf("%c", program->code[iter]);
     }
 }
 

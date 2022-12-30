@@ -1,18 +1,14 @@
-CC = gcc
+CC     = gcc
 CFLAGS = -g -Wall
-BIN = stack-lang
-SRC = *.c
-OBJ = $(SRC:.c=.o)
+BIN    = stack-lang
+SRCS   = $(wildcard *.c)
 
 .PHONY: clean
 
 all: $(BIN)
 
-$(BIN): $(OBJ)
-	$(CC) $^ $(CFLAGS) -o $@
-
-%.o: %.c
-	$(CC) $^ $(CFLAGS) -o $@
+$(BIN): $(SRCS)
+	$(CC) -o $@ $^ $(CFLAGS)
 
 clean:
-	$(RM) *.o $(BIN)
+	$(RM) -f $(OBJS) $(BIN) *~

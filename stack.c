@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "stack.h"
 
 struct Stack
 {
-    int* array;
-    int  size;
-    int  top;
+    int*         array;
+    unsigned int size;
+    int          top;
 };
 
 Stack* stackCreate (int n)
@@ -45,8 +46,8 @@ void stackDelete (Stack* stack)
         exit (EXIT_FAILURE);
     }
 
-    free(stack->array);
-    free(stack);
+    free (stack->array);
+    free (stack);
 }
 
 void stackPush (Stack* stack, int val)
@@ -66,10 +67,15 @@ int stackPop (Stack* stack)
     if (stack == NULL)
     {
         fprintf (stderr, "Empty memory.\n");
-        
         exit (EXIT_FAILURE);
     }
 
+    if (stack->top + 1 >= stack->size)
+    {
+        fprintf (stderr, "Full stack.\n");
+        exit (EXIT_FAILURE);
+    }
+    
     if (stack->top < 0)
     {
         fprintf (stderr, "Memory error.\n");
@@ -95,4 +101,14 @@ int stackPeek (Stack* stack)
         exit (EXIT_FAILURE);
     }
     return stack->array[stack->top];
+}
+
+bool isEmpty (Stack* stack)
+{
+    return stack->top == -1;
+}
+
+bool isFull (Stack* stack)
+{
+    return stack->top + 1 >= stack->size;
 }

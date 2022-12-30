@@ -10,4 +10,7 @@ void   stackPush   (Stack* stack,  int val);
 int    stackPop    (Stack* stack);
 int    stackPeek   (Stack* stack);
 
+bool   isEmpty     (Stack* stack);
+bool   isFull      (Stack* stack);
+
 #endif
