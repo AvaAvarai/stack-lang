@@ -5,12 +5,12 @@
 #include "parse.h"
 #include "stack.h"
 
+#define STACK_SIZE 100
+
 struct Prog
 {
     char*   code; // this should be a tree not a char* IR needs work
     Stack* stack;
-    int     line;
-    bool     run;
 };
 
 Prog* progLoad (char* filename)
@@ -30,7 +30,7 @@ Prog* progLoad (char* filename)
     }
  
     fseek (file, 0L, SEEK_END);
-    long size = ftell(file);
+    long size = ftell (file);
     char* text = malloc ( size * sizeof *text);
     out->code = malloc ( size * sizeof out->code);
     fseek (file, 0L, SEEK_SET);
@@ -48,17 +48,44 @@ Prog* progLoad (char* filename)
         exit (EXIT_FAILURE);
     }
 
-    out->stack = stackCreate (100);
-    
-    out->line = 0;
-    out->run  = false;
+    out->stack = stackCreate (STACK_SIZE);
 
     return out;
 }
 
 void progRun (Prog* program)
 {
-    printf ("%s", program->code);
+    // parsing wip
+    for (size_t iter = 0; iter < strlen (program->code); iter++)
+    {
+        char command[5] = {program->code[iter], program->code[iter+1], program->code[iter+2], program->code[iter+3], '\0'};
+        printf("%s", command);
+        if (strcmp (command, "push")==0)
+        {
+            printf ("IT WORKED!");
+            iter += 5;
+            // need to grab operand
+            continue;
+        } else if (strcmp (command, "pop ")==0)
+        {
+
+        } else if (strcmp (command, "add ")==0)
+        {
+
+        } else if (strcmp (command, "dup ")==0)
+        {
+
+        } else if (strcmp (command, "ifeq")==0)
+        {
+
+        } else if (strcmp (command, "peek")==0)
+        {
+
+        } else if (strcmp (command, "jump")==0)
+        {
+
+        }
+    }
 }
 
 void progClose (Prog* program)

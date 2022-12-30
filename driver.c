@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int main(void) {
-    printf("Testing\n\n");
+int main (void) {
+    printf ("Testing\n\n");
 
     Prog* program = progLoad ("test.txt");
     progRun (program);
