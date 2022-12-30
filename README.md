@@ -32,5 +32,17 @@ Error handling is rudimentary right now if a program is inaccurate or reaches an
 ## runnning programs  
 Currently this is done through hard-coding and is not accessible, the goal is to have the intepreter accept  programs via a file or input stream.  
 
+## example programs
+
+These two snippets are identical in meaning ( print 3 + 7 ):  
+
+\# sample program v1a \#  
+push 7  
+push 3  
+print  
+pop  
+
+\# sample program v1b \# push 7 push 3 print pop  
+
 # license  
 This work is purely academic and is made publically available under the GNU GPLv3 license.  
