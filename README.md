@@ -1,5 +1,5 @@
 # stack-lang
-An interpreted stack-based programming language. This project is not meant for serious use.
+A single-pass interpreted stack-based programming language. This project is not meant for serious use.  
 
 ## instructions
 
@@ -13,7 +13,7 @@ An interpreted stack-based programming language. This project is not meant for s
 * sub - pop off the top 2 numbers of the stack and push their difference  
 * mult - pop off the top 2 numbers of the stack and push their product  
 * div - pop off the top 2 numbers of the stack and push their quotient  
-* mod - pop off the top 2 numbers of the stack and push their congruence ( a == b (mod 10) )  
+* mod - pop off the top 2 numbers of the stack and push their remainder  
 
 ### Flow control:  
 * ifeq  <address\> - if the number on the top of the stack equals 0 continue, else jump execution to the line number <address\>  
