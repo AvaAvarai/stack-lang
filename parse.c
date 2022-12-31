@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include "parse.h"
 #include "stack.h"
 
@@ -55,20 +56,11 @@ Prog* progLoad (char* filename)
 
 void progRun (Prog* program)
 {
+    char opcode[5];
+    int pos = 0;
+    
     for (unsigned int iter = 0; iter < strlen (program->code); iter++)
     {
-        char opcode[5];
-        int pos = 0;
-        
-        // ignore whitespace
-        if (program->code[iter] == ' ' || program->code[iter] == '\n')
-        {
-            printf ("%s\n", opcode);
-            pos = 0;
-            memset (opcode, 0, sizeof opcode);
-            continue;
-        }
-        
         // ignore comments
         if (program->code[iter] == '#')
         {
@@ -79,21 +71,72 @@ void progRun (Prog* program)
             }
             continue;
         }
-
-        // capture opcode
-        if (((int)program->code[iter] >= 65 && (int)program->code[iter] <= 90) || ((int)program->code[iter] >= 97 && (int)program->code[iter] <= 172))
+        
+        // ignore whitespace
+        if (program->code[iter] == ' ' || program->code[iter] == '\n')
         {
-            if (pos >= 0 && pos < 5)
+            if (pos > 0)
             {
-                opcode[pos] = program->code[iter];
-                pos++;
+                for (int i = 0; i < strlen (opcode); i++)
+                {
+                    opcode[i] = tolower (opcode[i]);
+                }
+                if (strcmp (opcode, "push") == 0)
+                {
+
+                }
+                else if (strcmp (opcode, "pop") == 0)
+                {
+
+                }
+                else if (strcmp (opcode, "dup") == 0)
+                {
+
+                }
+                else if (strcmp (opcode, "add") == 0)
+                {
+
+                }
+                else if (strcmp (opcode, "sub") == 0)
+                {
+
+                }
+                else if (strcmp (opcode, "mult") == 0)
+                {
+
+                }
+                else if (strcmp (opcode, "div") == 0)
+                {
+
+                }
+                else if (strcmp (opcode, "mod") == 0)
+                {
+
+                }
+                else if (strcmp (opcode, "ifeq") == 0)
+                {
+
+                }
+                else if (strcmp (opcode, "ifneq") == 0)
+                {
+
+                }
+                else if (strcmp (opcode, "print") == 0)
+                {
+                    printf ("%d", stackPeek(program->stack));
+                }
             }
-            else
-            {
-                fprintf (stderr, "Parsing error.\n");
-                exit (EXIT_FAILURE);
-            }
+            pos = 0;
+            memset (opcode, 0, sizeof opcode);
+            continue;
         }
+        else
+        {
+            opcode[pos] = program->code[iter];
+            pos++;
+            continue;
+        }
+
     }
 }
 
