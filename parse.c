@@ -9,7 +9,7 @@
 
 struct Prog
 {
-    char*   code; // this should be a tree not a char* IR needs work
+    char*   code;
     Stack* stack;
 };
 
@@ -55,24 +55,45 @@ Prog* progLoad (char* filename)
 
 void progRun (Prog* program)
 {
-    // parsing wip
-    for (size_t iter = 0; iter < strlen (program->code); iter++)
+    for (unsigned int iter = 0; iter < strlen (program->code); iter++)
     {
-        // ignore comments
-        if ( program->code[iter] == '#' )
+        char opcode[5];
+        int pos = 0;
+        
+        // ignore whitespace
+        if (program->code[iter] == ' ' || program->code[iter] == '\n')
         {
-            while ( program->code[iter] != '\n' )
+            printf ("%s\n", opcode);
+            pos = 0;
+            memset (opcode, 0, sizeof opcode);
+            continue;
+        }
+        
+        // ignore comments
+        if (program->code[iter] == '#')
+        {
+            iter++;
+            while (program->code[iter] != '#')
             {
                 iter++;
             }
+            continue;
         }
 
         // capture opcode
-        while ( program->code[iter] != ' ' )
+        if (((int)program->code[iter] >= 65 && (int)program->code[iter] <= 90) || ((int)program->code[iter] >= 97 && (int)program->code[iter] <= 172))
         {
-            iter++;
+            if (pos >= 0 && pos < 5)
+            {
+                opcode[pos] = program->code[iter];
+                pos++;
+            }
+            else
+            {
+                fprintf (stderr, "Parsing error.\n");
+                exit (EXIT_FAILURE);
+            }
         }
-        printf("%c", program->code[iter]);
     }
 }
 
