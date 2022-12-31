@@ -56,8 +56,11 @@ Prog* progLoad (char* filename)
 
 void progRun (Prog* program)
 {
-    char opcode[5];
+    char opcode[6];
     int pos = 0;
+
+    char operand[11];
+    int pos2 = 0;
     
     for (unsigned int iter = 0; iter < strlen (program->code); iter++)
     {
@@ -75,57 +78,79 @@ void progRun (Prog* program)
         // ignore whitespace
         if (program->code[iter] == ' ' || program->code[iter] == '\n')
         {
-            if (pos > 0)
+            if (pos > 0) // an opcode was read in
             {
                 for (int i = 0; i < strlen (opcode); i++)
                 {
                     opcode[i] = tolower (opcode[i]);
                 }
+                
                 if (strcmp (opcode, "push") == 0)
                 {
-
+                    iter++;
+                    while (program->code[iter] == ' ' || program->code[iter] == '\n')
+                    {
+                        iter++;
+                    }
+                    while (isdigit (program->code[iter]))
+                    {
+                        operand[pos2] = program->code[iter];
+                        pos2++;
+                        iter++;
+                    }
+                    stackPush (program->stack, atoi (operand));
+                    pos2 = 0;
+                    memset (operand, 0, sizeof operand);
                 }
                 else if (strcmp (opcode, "pop") == 0)
                 {
-
+                    stackPop (program->stack);
                 }
                 else if (strcmp (opcode, "dup") == 0)
                 {
-
+                    stackPush (program->stack, stackPeek (program->stack));
                 }
                 else if (strcmp (opcode, "add") == 0)
                 {
-
+                    stackPush (program->stack, stackPop (program->stack) + stackPop (program->stack));
                 }
                 else if (strcmp (opcode, "sub") == 0)
                 {
-
+                    stackPush (program->stack, stackPop (program->stack) - stackPop (program->stack));
                 }
                 else if (strcmp (opcode, "mult") == 0)
                 {
-
+                    stackPush (program->stack, stackPop (program->stack) * stackPop (program->stack));
                 }
                 else if (strcmp (opcode, "div") == 0)
                 {
-
+                    stackPush (program->stack, stackPop (program->stack) / stackPop (program->stack));
                 }
                 else if (strcmp (opcode, "mod") == 0)
                 {
-
+                    stackPush (program->stack, stackPop (program->stack) % stackPop (program->stack));
                 }
                 else if (strcmp (opcode, "ifeq") == 0)
                 {
-
+                    // todo
                 }
                 else if (strcmp (opcode, "ifneq") == 0)
                 {
-
+                    // todo
+                }
+                else if (strcmp (opcode, "jump") == 0)
+                {
+                    // todo
                 }
                 else if (strcmp (opcode, "print") == 0)
                 {
-                    printf ("%d", stackPeek(program->stack));
+                    printf ("%d", stackPeek (program->stack));
                 }
-            }
+                else
+                {
+                    fprintf (stderr, "Invalid opcode: %s.\n", opcode);
+                }
+            } // an opcode was not read in
             pos = 0;
             memset (opcode, 0, sizeof opcode);
             continue;
