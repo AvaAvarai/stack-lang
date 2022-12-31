@@ -79,12 +79,7 @@ void progRun (Prog* program)
         if (program->code[iter] == ' ' || program->code[iter] == '\n')
         {
             if (pos > 0) // an opcode was read in
-            {
-                for (int i = 0; i < strlen (opcode); i++)
-                {
-                    opcode[i] = tolower (opcode[i]);
-                }
-                
+            {   
                 if (strcmp (opcode, "push") == 0)
                 {
                     iter++;
@@ -140,7 +135,56 @@ void progRun (Prog* program)
                 }
                 else if (strcmp (opcode, "jump") == 0)
                 {
-                    // todo
+                    iter++;
+                    while (program->code[iter] == ' ' || program->code[iter] == '\n')
+                    {
+                        iter++;
+                    }
+                    while (isdigit (program->code[iter]))
+                    {
+                        operand[pos2] = program->code[iter];
+                        pos2++;
+                        iter++;
+                    }
+
+                    int count = 2;
+                    bool new_sect = true;
+                    
+                    for (unsigned int i = 0; i < strlen (program->code); i++)
+                    {
+                        // ignore comments
+                        if (program->code[i] == '#')
+                        {
+                            i++;
+                            while (program->code[i] != '#')
+                            {
+                                i++;
+                            }
+                            continue;
+                        }
+                        
+                        if (program->code[i] == ' ' || program->code[i] == '\n')
+                        {
+                            if (!new_sect)
+                            {
+                                count++;
+                                new_sect = false;
+                            }
+                        }
+                        else if (!isdigit (program->code[i]))
+                        {
+                            new_sect = true;
+                        }
+
+                        if (count == atoi (operand))
+                        {
+                            iter = i;
+                            break;
+                        }
+                    }
+                    
+                    pos2 = 0;
+                    memset (operand, 0, sizeof operand);
                 }
                 else if (strcmp (opcode, "print") == 0)
                 {
@@ -157,7 +201,7 @@ void progRun (Prog* program)
         }
         else
         {
-            opcode[pos] = program->code[iter];
+            opcode[pos] = tolower (program->code[iter]);
             pos++;
             continue;
         }
